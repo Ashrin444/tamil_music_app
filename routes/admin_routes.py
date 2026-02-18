@@ -10,57 +10,40 @@ from models.song import Song
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
-# -------------------------------------------------
-# Admin Dashboard – Upload & View Songs
-# -------------------------------------------------
 @admin_bp.route("/", methods=["GET", "POST"])
 @login_required
 def dashboard():
-    """
-    Admin dashboard:
-    - Upload songs
-    - View uploaded songs
-    """
-    # Enforce admin-only access (server-side)
     if current_user.role != "admin":
-        abort(403, description="Admin access required")
+        abort(403)
 
-    # Handle song upload
     if request.method == "POST":
-        if "song" not in request.files:
-            abort(400, description="No file uploaded")
+        title = request.form.get("title")
+        audio = request.files.get("song")
+        image = request.files.get("image")
 
-        file = request.files["song"]
-        title = request.form.get("title", "").strip()
+        if not title or not audio:
+            abort(400)
 
-        if not file.filename:
-            abort(400, description="Empty filename")
-
-        if not title:
-            abort(400, description="Song title is required")
-
-        # Ensure upload folder exists
         os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
+        os.makedirs("static/images", exist_ok=True)
 
-        # Secure filename and save
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(Config.UPLOAD_FOLDER, filename)
-        file.save(file_path)
+        audio_name = secure_filename(audio.filename)
+        audio.save(os.path.join(Config.UPLOAD_FOLDER, audio_name))
 
-        # Save song metadata to DB
+        image_name = "default.jpg"
+        if image and image.filename:
+            image_name = secure_filename(image.filename)
+            image.save(os.path.join("static/images", image_name))
+
         song = Song(
             title=title,
-            filename=filename
+            filename=audio_name,
+            image=image_name
         )
         db.session.add(song)
         db.session.commit()
 
         return redirect(url_for("admin.dashboard"))
 
-    # Fetch all uploaded songs
-    songs = Song.query.order_by(Song.id.desc()).all()
-
-    return render_template(
-        "admin/dashboard.html",
-        songs=songs
-    )
+    songs = Song.query.all()
+    return render_template("admin/dashboard.html", songs=songs)

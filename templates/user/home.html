@@ -1,41 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 
-<link rel="stylesheet" href="/static/css/player.css">
-<script src="/static/js/player.js" defer></script>
-<script src="/static/js/playlist.js" defer></script>
+<link rel="stylesheet" href="/static/css/dj-player.css">
+<script src="/static/js/dj-player.js" defer></script>
 
-{% for song in songs %}
-<div class="player">
-  <p>{{ song.title }}</p>
+<div id="dj-player">
+  <img id="cover" class="cover">
 
-  <audio controls src="/static/songs/{{ song.filename }}"></audio>
+  <div class="disc"></div>
 
-  <div class="wave">
-    {% for i in range(12) %}
-      <div class="bar"></div>
-    {% endfor %}
+  <h2 id="song-title"></h2>
+
+  <audio id="audio"></audio>
+
+  <div class="controls">
+    <button onclick="prevSong()">⏮</button>
+    <button onclick="togglePlay()">▶️ / ⏸</button>
+    <button onclick="nextSong()">⏭</button>
   </div>
 
-  {% if playlists %}
-  <form class="playlist-form" method="POST" action="/playlist/add">
-    <input type="hidden" name="song_id" value="{{ song.id }}">
-    <select name="playlist_id" required>
-      {% for pl in playlists %}
-        <option value="{{ pl.id }}">{{ pl.name }}</option>
-      {% endfor %}
-    </select>
-    <button>Add to Playlist</button>
-  </form>
-  {% endif %}
-</div>
-{% endfor %}
+  <div class="sliders">
+    <label>Bass</label>
+    <input type="range" min="-30" max="30" value="0" id="bass">
 
-<div class="card">
-  <form method="POST" action="/playlist/create">
-    <input name="name" placeholder="New playlist name" required>
-    <button>Create Playlist</button>
-  </form>
+    <label>Vocals</label>
+    <input type="range" min="-30" max="30" value="0" id="vocals">
+  </div>
+
+  <canvas id="visualizer"></canvas>
 </div>
+
+<script>
+  // songs is now JSON-safe
+  const PLAYLIST = {{ songs | tojson }};
+</script>
 
 {% endblock %}
