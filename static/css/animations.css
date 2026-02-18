@@ -1,0 +1,25 @@
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #1db954; }
+  50% { box-shadow: 0 0 30px #1db954; }
+  100% { box-shadow: 0 0 10px #1db954; }
+}
+
+.glow {
+  animation: glow 1.5s infinite ease-in-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.7s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

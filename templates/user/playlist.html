@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="/static/css/player.css">
+<script src="/static/js/player.js" defer></script>
+
+<div class="card glow">
+  <h2>{{ playlist.name }}</h2>
+</div>
+
+{% for song in songs %}
+<div class="player">
+  <p>{{ song.title }}</p>
+  <audio controls src="/static/songs/{{ song.filename }}"></audio>
+
+  <div class="wave">
+    {% for i in range(12) %}
+      <div class="bar"></div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card glow">
+  <h2>Upload Song</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    <input name="title" placeholder="Song title" required>
+    <input type="file" name="song" accept="audio/*" required>
+    <button>Upload</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3>Uploaded Songs</h3>
+  <ul>
+    {% for song in songs %}
+      <li>{{ song.title }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

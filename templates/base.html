@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tamil Music</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1db954">
+
+  <link rel="stylesheet" href="/static/css/music-ui.css">
+  <link rel="stylesheet" href="/static/css/animations.css">
+  <link rel="manifest" href="/static/manifest.json">
+
+  <script src="/static/js/animations.js" defer></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/static/service-worker.js");
+    }
+  </script>
+</head>
+<body>
+
+<header>
+  <h1>🎵 Tamil Music</h1>
+  <a href="/logout">Logout</a>
+</header>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

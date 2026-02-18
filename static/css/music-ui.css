@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #1e1e1e, #000);
+  color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+header {
+  background: #121212;
+  padding: 16px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  color: #1db954;
+}
+
+a {
+  color: #1db954;
+  text-decoration: none;
+}
+
+button {
+  background: #1db954;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.3s;
+}
+
+button:hover {
+  transform: scale(1.08);
+}
+
+select,
+input {
+  background: #181818;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 20px;
+  margin: 16px;
+  backdrop-filter: blur(12px);
+}
